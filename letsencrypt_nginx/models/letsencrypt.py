@@ -35,6 +35,7 @@ def get_data_dir():
             os.makedirs(data_dir)
     return data_dir
 
+# TODO: Make this configurable somehow.
 CONF = """# http -> https
 server {
 \tlisten 80;
