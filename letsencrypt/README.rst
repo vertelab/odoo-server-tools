@@ -33,11 +33,11 @@ For Debian and Ubuntu, that would be:
 
 For installing the ACME-Tiny python module, use the PIP package manager:
 
-    sudo pip install acme-tiny
+    sudo pip3 install acme-tiny
 
 For installing the IPy python module, use the PIP package manager:
 
-    sudo pip install IPy
+    sudo pip3 install IPy
 
 
 Configuration
