@@ -36,11 +36,31 @@ def get_data_dir():
     return data_dir
 
 # TODO: Make this configurable somehow.
+# TODO: Make this use the alternative server domains and hook them to
+# the correct letsencrypt files.
+# Example: vertel.se should be configured with the alternative domain
+# vertel.azzar.se. Each domain will have a separate certificate and this
+# nginx conf should reflect that.
 CONF = """# http -> https
 server {
 \tlisten 80;
 \tserver_name %HOSTNAMES%;
-\trewrite ^(.*) https://$host$1 permanent;
+\tproxy_read_timeout 720s;
+\tproxy_connect_timeout 720s;
+\tproxy_send_timeout 720s;
+
+\t# Add Headers for odoo proxy mode
+\tproxy_set_header X-Forwarded-Host $host;
+\tproxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+\tproxy_set_header X-Forwarded-Proto $scheme;
+\tproxy_set_header X-Real-IP $remote_addr;
+\tlocation /.well-known/acme-challenge/ {
+\t\tproxy_redirect off;
+\t\tproxy_pass http://odoo;
+\t}
+\tlocation / {
+\t\trewrite ^(.*) https://$host$1 permanent;
+\t}
 }
 
 server {
