@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Copyright (C) 2019 Vertel (<http://www.vertel.se>).
@@ -18,22 +17,27 @@
 #
 ##############################################################################
 
+import logging
 import os
 import shutil
-import logging
 from urllib.parse import urlparse
-from odoo import _, api, models, exceptions
+
+from odoo import _, api, exceptions, models
 from odoo.tools import config
-from odoo.addons.letsencrypt.models.letsencrypt import get_data_dir as get_letsencrypt_data_dir
+
+from odoo.addons.letsencrypt.models.letsencrypt import (
+    get_data_dir as get_letsencrypt_data_dir,
+)
 
 _logger = logging.getLogger(__name__)
 
 
 def get_data_dir():
-    data_dir = os.path.join(config.options.get('data_dir'), 'letsencrypt_nginx')
+    data_dir = os.path.join(config.options.get("data_dir"), "letsencrypt_nginx")
     if not os.path.isdir(data_dir):
-            os.makedirs(data_dir)
+        os.makedirs(data_dir)
     return data_dir
+
 
 # TODO: Make this configurable somehow.
 # TODO: Make this use the alternative server domains and hook them to
@@ -106,45 +110,48 @@ server {
 }
 """
 
+
 class Letsencrypt(models.AbstractModel):
-    _inherit = 'letsencrypt'
+    _inherit = "letsencrypt"
 
     @api.model
     def generate_nginx_conf(self):
-        parameter_obj = self.env['ir.config_parameter']
-        domain = urlparse(
-            parameter_obj.get_param(
-                'web.base.url', 'localhost')).netloc
+        parameter_obj = self.env["ir.config_parameter"]
+        domain = urlparse(parameter_obj.get_param("web.base.url", "localhost")).netloc
         domains = [domain]
         altnames = parameter_obj.search(
-            [('key', 'like', 'letsencrypt.altname.')],
-            order='key'
+            [("key", "like", "letsencrypt.altname.")], order="key"
         )
         for altname in altnames:
             domains.append(altname.value)
-        hostname = ' '.join(domains)
+        hostname = " ".join(domains)
         data_dir = get_letsencrypt_data_dir()
-        
-        crt = os.path.join(data_dir, '%s.crt' % domain)
-        key = os.path.join(data_dir, '%s.key' % domain)
-        
-        conf_text = CONF.replace('%HOSTNAMES%', hostname).replace('%CRT_PATH%', crt).replace('%KEY_PATH%', key)
-        conf_path = os.path.join(get_data_dir(), '%s.conf' % domain)
-        with open(conf_path, 'w')\
-                as conf:
+
+        crt = os.path.join(data_dir, "%s.crt" % domain)
+        key = os.path.join(data_dir, "%s.key" % domain)
+
+        conf_text = (
+            CONF.replace("%HOSTNAMES%", hostname)
+            .replace("%CRT_PATH%", crt)
+            .replace("%KEY_PATH%", key)
+        )
+        conf_path = os.path.join(get_data_dir(), "%s.conf" % domain)
+        with open(conf_path, "w") as conf:
             conf.write(conf_text)
-        reload_cmd = parameter_obj.get_param(
-            'letsencrypt.reload_command', False)
+        reload_cmd = parameter_obj.get_param("letsencrypt.reload_command", False)
         if reload_cmd:
-            _logger.info('reloading webserver...')
+            _logger.info("reloading webserver...")
             try:
-                self.call_cmdline(['sh', '-c', reload_cmd])
+                self.call_cmdline(["sh", "-c", reload_cmd])
             except:
-                _logger.warn('Failed to reload webserver. Removing config for %s and restarting!\n\nFailed config saved as %s.' % (domain, conf_path + '_failed'))
-                self.shutil(conf_path, conf_path + '_failed')
-                self.call_cmdline(['sh', '-c', reload_cmd])
+                _logger.warn(
+                    "Failed to reload webserver. Removing config for %s and restarting!\n\nFailed config saved as %s."
+                    % (domain, conf_path + "_failed")
+                )
+                self.shutil(conf_path, conf_path + "_failed")
+                self.call_cmdline(["sh", "-c", reload_cmd])
+
     @api.model
     def cron(self):
         super(Letsencrypt, self).cron()
         self.generate_nginx_conf()
-        
