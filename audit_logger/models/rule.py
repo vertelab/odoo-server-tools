@@ -5,11 +5,12 @@ import copy
 import logging
 
 from odoo import _, api, fields, models, modules
+from odoo.tools import config
 
 _logger = logging.getLogger(__name__)
 
-# from odoo.tools import config
-# config.get('asdasd')
+
+ODOO_LOG_DISABLED = config.get('odoo_log_disabled')
 
 FIELDS_BLACKLIST = [
     "id",
@@ -556,7 +557,8 @@ class AuditlogRule(models.Model):
                 log_vals = self._prepare_log_line_vals_on_read(log, field, read_values)
                 # Add message to log
                 _logger.info(log_vals)
-                log_line_model.create(log_vals)
+                if not ODOO_LOG_DISABLED:
+                    log_line_model.create(log_vals)
 
     def _prepare_log_line_vals_on_read(self, log, field, read_values):
         """Prepare the dictionary of values used to create a log line on a
@@ -596,7 +598,8 @@ class AuditlogRule(models.Model):
                 )
                 # Add message to log
                 _logger.info(log_vals)
-                log_line_model.create(log_vals)
+                if not ODOO_LOG_DISABLED:
+                    log_line_model.create(log_vals)
 
     def _prepare_log_line_vals_on_write(self, log, field, old_values, new_values):
         """Prepare the dictionary of values used to create a log line on a
@@ -648,7 +651,8 @@ class AuditlogRule(models.Model):
                 log_vals = self._prepare_log_line_vals_on_create(log, field, new_values)
                 # Add message to log
                 _logger.info(log_vals)
-                log_line_model.create(log_vals)
+                if not ODOO_LOG_DISABLED:
+                    log_line_model.create(log_vals)
 
     def _prepare_log_line_vals_on_create(self, log, field, new_values):
         """Prepare the dictionary of values used to create a log line on a
