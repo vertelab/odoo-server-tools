@@ -10,6 +10,7 @@
     "category": "Tools",
     "depends": ["base",],
     "data": [
+        "security/audit_security.xml",
         "security/ir.model.access.csv",
         "data/ir_cron.xml",
         "views/auditlog_view.xml",
