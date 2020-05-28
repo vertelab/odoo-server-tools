@@ -1,6 +1,7 @@
 # Copyright 2015 ABF OSIELL <https://osiell.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import json
 import copy
 import logging
 
@@ -556,7 +557,7 @@ class AuditlogRule(models.Model):
             if field:
                 log_vals = self._prepare_log_line_vals_on_read(log, field, read_values)
                 # Add message to log
-                _logger.info(log_vals)
+                _logger.info(json.dumps(log_vals, default=str))
                 if not ODOO_LOG_DISABLED:
                     log_line_model.create(log_vals)
 
@@ -597,7 +598,7 @@ class AuditlogRule(models.Model):
                     log, field, old_values, new_values
                 )
                 # Add message to log
-                _logger.info(log_vals)
+                _logger.info(json.dumps(log_vals, default=str))
                 if not ODOO_LOG_DISABLED:
                     log_line_model.create(log_vals)
 
@@ -650,7 +651,7 @@ class AuditlogRule(models.Model):
             if field:
                 log_vals = self._prepare_log_line_vals_on_create(log, field, new_values)
                 # Add message to log
-                _logger.info(log_vals)
+                _logger.info(json.dumps(log_vals, default=str))
                 if not ODOO_LOG_DISABLED:
                     log_line_model.create(log_vals)
 
