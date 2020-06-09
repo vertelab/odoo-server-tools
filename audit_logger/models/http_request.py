@@ -5,7 +5,14 @@ from psycopg2.extensions import AsIs
 
 from odoo import api, fields, models
 from odoo.http import request
+from odoo.tools import config
 
+import json
+import logging
+
+_logger = logging.getLogger(__name__)
+
+ODOO_LOG_DISABLED = config.get('odoo_log_disabled')
 
 class AuditlogHTTPRequest(models.Model):
     _name = "auditlog.http.request"
@@ -62,6 +69,9 @@ class AuditlogHTTPRequest(models.Model):
                 "http_session_id": http_session_model.current_http_session(),
                 "user_context": request.context,
             }
+
+            _logger.info(json.dumps(vals, default=str))
+            
             httprequest.auditlog_http_request_id = self.create(vals).id
             return httprequest.auditlog_http_request_id
         return False
