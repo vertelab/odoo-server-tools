@@ -10,7 +10,6 @@ from odoo.tools import config
 
 _logger = logging.getLogger(__name__)
 
-
 ODOO_LOG_DISABLED = config.get('odoo_log_disabled')
 
 FIELDS_BLACKLIST = [

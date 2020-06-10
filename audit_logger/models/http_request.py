@@ -70,8 +70,9 @@ class AuditlogHTTPRequest(models.Model):
                 "user_context": request.context,
             }
 
+            # add http request to log.
             _logger.info(json.dumps(vals, default=str))
-            
+
             httprequest.auditlog_http_request_id = self.create(vals).id
             return httprequest.auditlog_http_request_id
         return False
