@@ -62,6 +62,7 @@ class AuditlogHTTPRequest(models.Model):
                 )
                 if self.env.cr.fetchone():
                     return httprequest.auditlog_http_request_id
+
             vals = {
                 "name": httprequest.path,
                 "root_url": httprequest.url_root,
@@ -70,8 +71,16 @@ class AuditlogHTTPRequest(models.Model):
                 "user_context": request.context,
             }
 
+            user = self.env['res.users'].browse(request.uid)
+            groups = self.env['res.groups'].search([('users', '=', user.id)])
+
+            vals_additional = {
+                "user": user.display_name,
+                "groups": groups.mapped('display_name'),
+            }
+
             # add http request to log.
-            _logger.info(json.dumps(vals, default=str))
+            _logger.info(json.dumps({**vals, **vals_additional}, default=str))
 
             httprequest.auditlog_http_request_id = self.create(vals).id
             return httprequest.auditlog_http_request_id

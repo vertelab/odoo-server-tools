@@ -55,6 +55,7 @@ class AuditlogtHTTPSession(models.Model):
             )
             if existing_session:
                 return existing_session.id
+
             vals = {
                 "name": httpsession.sid,
                 "user_id": request.uid,
