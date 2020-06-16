@@ -10,7 +10,6 @@ from odoo.tools import config
 
 _logger = logging.getLogger(__name__)
 
-
 ODOO_LOG_DISABLED = config.get('odoo_log_disabled')
 
 FIELDS_BLACKLIST = [
@@ -567,6 +566,7 @@ class AuditlogRule(models.Model):
         """
         vals = {
             "field_id": field["id"],
+            "field_name": field["name"],
             "log_id": log.id,
             "old_value": read_values[log.res_id][field["name"]],
             "old_value_text": read_values[log.res_id][field["name"]],
@@ -608,6 +608,7 @@ class AuditlogRule(models.Model):
         """
         vals = {
             "field_id": field["id"],
+            "field_name": field["name"],
             "log_id": log.id,
             "old_value": old_values[log.res_id][field["name"]],
             "old_value_text": old_values[log.res_id][field["name"]],
@@ -661,6 +662,7 @@ class AuditlogRule(models.Model):
         """
         vals = {
             "field_id": field["id"],
+            "field_name": field["name"],
             "log_id": log.id,
             "old_value": False,
             "old_value_text": False,

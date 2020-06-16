@@ -3,7 +3,14 @@
 
 from odoo import api, fields, models
 from odoo.http import request
+from odoo.tools import config
 
+import json
+import logging
+
+_logger = logging.getLogger(__name__)
+
+ODOO_LOG_DISABLED = config.get('odoo_log_disabled')
 
 class AuditlogtHTTPSession(models.Model):
     _name = "auditlog.http.session"
@@ -48,10 +55,15 @@ class AuditlogtHTTPSession(models.Model):
             )
             if existing_session:
                 return existing_session.id
+
             vals = {
                 "name": httpsession.sid,
                 "user_id": request.uid,
             }
+
+            # add http session to log.
+            _logger.info(json.dumps(vals, default=str))
+
             httpsession.auditlog_http_session_id = self.create(vals).id
             return httpsession.auditlog_http_session_id
         return False
