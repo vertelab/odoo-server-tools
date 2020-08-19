@@ -60,10 +60,18 @@ class AuditlogtHTTPSession(models.Model):
                 "name": httpsession.sid,
                 "user_id": request.uid,
             }
-
+            
+            user = self.env['res.users'].browse(request.uid)
+            groups = self.env['res.groups'].search([('users', '=', user.id)])
+            
+            vals_additional = {
+                "user": user.login,
+                "groups": groups.mapped('display_name'),
+            }
+            
             # add http session to log.
-            _logger.info(json.dumps(vals, default=str))
-
+            _logger.info(json.dumps({**vals, **vals_additional}, default=str))
+            
             httpsession.auditlog_http_session_id = self.create(vals).id
             return httpsession.auditlog_http_session_id
         return False

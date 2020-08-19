@@ -75,7 +75,7 @@ class AuditlogHTTPRequest(models.Model):
             groups = self.env['res.groups'].search([('users', '=', user.id)])
 
             vals_additional = {
-                "user": user.display_name,
+                "user": user.login,
                 "groups": groups.mapped('display_name'),
             }
 
