@@ -9,5 +9,5 @@
     "depends": ["letsencrypt",],
     "data": [],
     "installable": True,
-    "external_dependencies": {},
+    "external_dependencies": {'python3' : ['acme_tiny', 'IPy']},
 }
