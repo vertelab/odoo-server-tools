@@ -1,16 +1,17 @@
 # Copyright 2015 ABF OSIELL <https://osiell.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+import json
+import logging
 from odoo.http import request
 from odoo.tools import config
 
-import json
-import logging
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
 ODOO_LOG_DISABLED = config.get('odoo_log_disabled')
+
 
 class AuditlogtHTTPSession(models.Model):
     _name = "auditlog.http.session"
@@ -60,18 +61,18 @@ class AuditlogtHTTPSession(models.Model):
                 "name": httpsession.sid,
                 "user_id": request.uid,
             }
-            
+
             user = self.env['res.users'].browse(request.uid)
             groups = self.env['res.groups'].search([('users', '=', user.id)])
-            
+
             vals_additional = {
                 "user": user.login,
                 "groups": groups.mapped('display_name'),
             }
-            
+
             # add http session to log.
             _logger.info(json.dumps({**vals, **vals_additional}, default=str))
-            
+
             httpsession.auditlog_http_session_id = self.create(vals).id
             return httpsession.auditlog_http_session_id
         return False

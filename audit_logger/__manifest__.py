@@ -8,7 +8,7 @@
     "license": "AGPL-3",
     "website": "https://vertel.se/",
     "category": "Tools",
-    "depends": ["base",],
+    "depends": [],
     "data": [
         "security/audit_security.xml",
         "security/ir.model.access.csv",
