@@ -1,18 +1,18 @@
 # Copyright 2015 ABF OSIELL <https://osiell.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import json
+import logging
+from odoo.http import request
+from odoo.tools import config
 from psycopg2.extensions import AsIs
 
 from odoo import api, fields, models
-from odoo.http import request
-from odoo.tools import config
-
-import json
-import logging
 
 _logger = logging.getLogger(__name__)
 
 ODOO_LOG_DISABLED = config.get('odoo_log_disabled')
+
 
 class AuditlogHTTPRequest(models.Model):
     _name = "auditlog.http.request"

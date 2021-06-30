@@ -1,12 +1,12 @@
 # Copyright 2015 ABF OSIELL <https://osiell.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-import json
 import copy
+import json
 import logging
+from odoo.tools import config
 
 from odoo import _, api, fields, models, modules
-from odoo.tools import config
 
 _logger = logging.getLogger(__name__)
 
@@ -112,7 +112,7 @@ class AuditlogRule(models.Model):
         states={"subscribed": [("readonly", True)]},
     )
     log_type = fields.Selection(
-        [("full", "Full log"), ("fast", "Fast log"),],
+        [("full", "Full log"), ("fast", "Fast log"), ],
         string="Type",
         required=True,
         default="full",
@@ -222,7 +222,7 @@ class AuditlogRule(models.Model):
             model_model = self.env[rule.model_id.model]
             for method in ["create", "read", "write", "unlink"]:
                 if getattr(rule, "log_%s" % method) and hasattr(
-                    getattr(model_model, method), "origin"
+                        getattr(model_model, method), "origin"
                 ):
                     model_model._revert_method(method)
                     delattr(type(model_model), "auditlog_ruled_%s" % method)
@@ -365,15 +365,15 @@ class AuditlogRule(models.Model):
             old_values = {
                 d["id"]: d
                 for d in self.sudo()
-                .with_context(prefetch_fields=False)
-                .read(list(self._fields))
+                    .with_context(prefetch_fields=False)
+                    .read(list(self._fields))
             }
             result = write_full.origin(self, vals, **kwargs)
             new_values = {
                 d["id"]: d
                 for d in self.sudo()
-                .with_context(prefetch_fields=False)
-                .read(list(self._fields))
+                    .with_context(prefetch_fields=False)
+                    .read(list(self._fields))
             }
             # Pass on filter_ids as filter_field since we remove the self reference down the line.
             rule_model.sudo().create_logs(
@@ -432,8 +432,8 @@ class AuditlogRule(models.Model):
             old_values = {
                 d["id"]: d
                 for d in self.sudo()
-                .with_context(prefetch_fields=False)
-                .read(list(self._fields))
+                    .with_context(prefetch_fields=False)
+                    .read(list(self._fields))
             }
             rule_model.sudo().create_logs(
                 self.env.uid,
@@ -464,14 +464,14 @@ class AuditlogRule(models.Model):
         return unlink_full if self.log_type == "full" else unlink_fast
 
     def create_logs(
-        self,
-        uid,
-        res_model,
-        res_ids,
-        method,
-        old_values=None,
-        new_values=None,
-        additional_log_values=None,
+            self,
+            uid,
+            res_model,
+            res_ids,
+            method,
+            old_values=None,
+            new_values=None,
+            additional_log_values=None,
     ):
         """Create logs. `old_values` and `new_values` are dictionaries, e.g:
             {RES_ID: {'FIELD': VALUE, ...}}
@@ -548,7 +548,7 @@ class AuditlogRule(models.Model):
         for field_name in fields_list:
             # Added check to filter fields if field_filter is not empty
             if field_name in FIELDS_BLACKLIST or (
-                field_filter and field_name not in field_filter
+                    field_filter and field_name not in field_filter
             ):
                 continue
             field = self._get_field(log.model_id, field_name)
@@ -581,14 +581,14 @@ class AuditlogRule(models.Model):
         return vals
 
     def _create_log_line_on_write(
-        self, log, fields_list, old_values, new_values, field_filter
+            self, log, fields_list, old_values, new_values, field_filter
     ):
         """Log field updated on a 'write' operation."""
         log_line_model = self.env["auditlog.log.line"]
         for field_name in fields_list:
             # Added check to filter fields if field_filter is not empty
             if field_name in FIELDS_BLACKLIST or (
-                field_filter and field_name not in field_filter
+                    field_filter and field_name not in field_filter
             ):
                 continue
             field = self._get_field(log.model_id, field_name)
@@ -644,7 +644,7 @@ class AuditlogRule(models.Model):
         for field_name in fields_list:
             # Added check to filter fields if field_filter is not empty
             if field_name in FIELDS_BLACKLIST or (
-                field_filter and field_name not in field_filter
+                    field_filter and field_name not in field_filter
             ):
                 continue
             field = self._get_field(log.model_id, field_name)
