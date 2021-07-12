@@ -32,7 +32,7 @@ def split_strip(s):
 
 
 def _overload_load_information_from_description_file(module, mod_path=None):
-    res = _original_load_information_from_description_file(module, mod_path=None)
+    res = _original_load_information_from_description_file(module, mod_path)
     auto_install = res.get("auto_install", False)
 
     modules_auto_install_enabled = split_strip(
@@ -44,6 +44,10 @@ def _overload_load_information_from_description_file(module, mod_path=None):
 
     if auto_install and module in modules_auto_install_disabled:
         _logger.info("Module '%s' has been marked as not auto installable." % module)
+        res["auto_install"] = False
+
+    if auto_install and module not in modules_auto_install_enabled:
+        _logger.info(f"Module {module} is auto_install but is not been marked as auto installable.")
         res["auto_install"] = False
 
     if not auto_install and module in modules_auto_install_enabled:
