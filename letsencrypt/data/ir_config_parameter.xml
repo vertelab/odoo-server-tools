@@ -7,7 +7,6 @@
             forcecreate="True">
             <field name="key">letsencrypt.reload_command</field>
             <field name="value">sudo /usr/sbin/service nginx reload</field>
-            <field name="group_ids" eval="[(6, False, [ref('base.group_system')])]" />
         </record>
     </data>
 </odoo>
