@@ -7,14 +7,21 @@ Generate nginx config for letsencrypt.org certificates
 ======================================================
 
 This module was written to add automatic nginx configuration to the letsencrypt
-module. This is performed when requesting a new certificate through the 
+module. This is performed when requesting a new certificate through the
 letsencrypt cron job. Remember to set a correct *web.base.url* and
 *web.base.url.freeze* before running the cron job.
 
 Configuration
 =============
 
-Configuration files are generated in
+The configuration template(s) nginx_template.conf need to put into the data_dir
+directory or a subfolder. If not using the default name or if a database need
+to use a particular one, set the letsencrypt_nginx.template_conf parameter on
+each effected database. The parameter is path to the file relative to data_dir.
+
+If the template file can't be find a fallback version will be used.
+
+Nginx configuration files are generated in
 ~odoo/.local/share/Odoo/letsencrypt_nginx. You need to configure nginx
 to use those files.
 
@@ -27,5 +34,5 @@ Your conf file should start with this::
     upstream longpolling {
      server 127.0.0.1:8072;
     }
-    
+
     include /var/lib/odoo/.local/share/Odoo/letsencrypt_nginx/*.conf;

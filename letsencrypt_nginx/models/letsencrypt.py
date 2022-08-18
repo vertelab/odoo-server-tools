@@ -130,8 +130,19 @@ class Letsencrypt(models.AbstractModel):
         crt = os.path.join(data_dir, "%s.crt" % domain)
         key = os.path.join(data_dir, "%s.key" % domain)
 
+        conf_template = CONF
+        conf_template_name = parameter_obj.get_param(
+            "letsencrypt_nginx.template_conf", "nginx_template.conf")
+        conf_template_path = os.path.join(get_data_dir(), conf_template_name)
+        if (os.path.exists(conf_template_path) and
+                os.path.isfile(conf_template_path)):
+            with open(conf_template_path) as mfile:
+                conf_template = mfile.read()
+        else:
+            _logger.warn("Nginx template file not found. Using fallback.")
+
         conf_text = (
-            CONF.replace("%HOSTNAMES%", hostname)
+            conf_template.replace("%HOSTNAMES%", hostname)
             .replace("%CRT_PATH%", crt)
             .replace("%KEY_PATH%", key)
         )

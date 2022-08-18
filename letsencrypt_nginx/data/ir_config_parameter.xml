@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="1">
+        <!--
+            With great power comes great responsability.
+            This parameters should be set by someone who has access to the
+            Odoo-server itself.
+        -->
+        <record
+            id="nginx_template_conf"
+            model="ir.config_parameter"
+            forcecreate="True">
+            <field name="key">letsencrypt_nginx.template_conf</field>
+            <field name="value">nginx_template.conf</field> <!-- Path relative to data_dir-->
+        </record>
+    </data>
+</odoo>

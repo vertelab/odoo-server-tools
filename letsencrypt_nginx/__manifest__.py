@@ -7,7 +7,7 @@
     "category": "Hidden/Dependency",
     "summary": "Create nginx configs for SSL.",
     "depends": ["letsencrypt",],
-    "data": [],
+    "data": ["data/ir_config_parameter.xml"],
     "installable": True,
     "external_dependencies": {'python3' : ['acme_tiny', 'IPy']},
 }
