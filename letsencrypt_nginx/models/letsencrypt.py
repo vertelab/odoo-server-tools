@@ -133,7 +133,8 @@ class Letsencrypt(models.AbstractModel):
         conf_template = CONF
         conf_template_name = parameter_obj.get_param(
             "letsencrypt_nginx.template_conf", "nginx_template.conf")
-        conf_template_path = os.path.join(get_data_dir(), conf_template_name)
+        conf_template_path = os.path.join(config.options.get("data_dir"),
+                                          conf_template_name)
         if (os.path.exists(conf_template_path) and
                 os.path.isfile(conf_template_path)):
             with open(conf_template_path) as mfile:
