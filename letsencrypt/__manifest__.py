@@ -36,7 +36,7 @@
     """,
     #'sequence': '1',
     'author': 'Therp BV, Tecnativa, Vertel AB, Odoo Community Association (OCA)',
-    'website': 'https://vertel.se/apps/odoo-server-tools/letsencrypt',
+    'website': 'https://therp.nl/',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
