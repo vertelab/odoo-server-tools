@@ -41,7 +41,7 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-server-tools',
     # Any module necessary for this one to work correctly
-    "depends": ["letsencrypt",],
+    'depends': ['letsencrypt'],
     "data": ["data/ir_config_parameter.xml"],
     "installable": True,
     "external_dependencies": {'python3' : ['acme_tiny', 'IPy']},
