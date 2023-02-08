@@ -40,7 +40,7 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-server-tools',
     # Any module necessary for this one to work correctly
-    "depends": ["web"],
+    'depends': ['web'],
     "auto_install": False,
     "installable": True,
 }
