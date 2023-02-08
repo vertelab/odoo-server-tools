@@ -45,7 +45,7 @@
     # Any module necessary for this one to work correctly
 
 
-    "depends": ["base",],
+    'depends': ['base',],
     "data": ["data/ir_config_parameter.xml", "data/ir_cron.xml", "demo/ir_cron.xml",],
     "post_init_hook": "post_init_hook",
     "installable": True,
