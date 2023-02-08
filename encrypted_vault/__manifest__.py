@@ -40,10 +40,7 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-server-tools',
     # Any module necessary for this one to work correctly
-    'depends': [
-        'base_encrypted_field',
-        'web_clipboard',
-    ],
+    'depends': ['base_encrypted_field','web_clipboard',],
 
     'data': [
         'security/security.xml',
