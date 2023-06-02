@@ -93,9 +93,16 @@ server {
 \taccess_log /var/log/nginx/odoo.access.log;
 \terror_log /var/log/nginx/odoo.error.log;
 \t
-\t# Redirect longpoll requests to odoo longpolling port
-\tlocation /longpolling {
+\t# Redirect websocket requests to odoo gevent port
+\tlocation /websocket {
 \t\tproxy_pass http://longpolling;
+\t\tproxy_set_header Upgrade $http_upgrade;
+\t\tproxy_set_header Connection $connection_upgrade;
+\t\tproxy_set_header X-Forwarded-Host $host;
+\t\tproxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+\t\tproxy_set_header X-Forwarded-Proto $scheme;
+\t\tproxy_set_header X-Real-IP $remote_addr;
+\t\tproxy_set_header X-Odoo-dbfilter "^%d$dollar";
 \t}
 \t
 \t# Redirect requests to odoo backend server

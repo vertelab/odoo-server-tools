@@ -31,7 +31,7 @@ Your conf file should start with this::
     upstream odoo {
      server 127.0.0.1:8069;
     }
-    upstream longpolling {
+    upstream websocket {
      server 127.0.0.1:8072;
     }
 
