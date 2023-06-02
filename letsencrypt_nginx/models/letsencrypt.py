@@ -94,7 +94,7 @@ server {
 \t
 \t# Redirect websocket requests to odoo gevent port
 \tlocation /websocket {
-\t\tproxy_pass http://longpolling;
+\t\tproxy_pass http://odoochat;
 \t\tproxy_set_header Upgrade $http_upgrade;
 \t\tproxy_set_header Connection $connection_upgrade;
 \t\tproxy_set_header X-Forwarded-Host $host;
