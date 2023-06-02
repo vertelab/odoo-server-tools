@@ -68,7 +68,7 @@ server {
 }
 
 server {
-\tlisten 443;
+\tlisten 443 ssl;
 \tserver_name %HOSTNAMES%;
 \tproxy_read_timeout 720s;
 \tproxy_connect_timeout 720s;
@@ -81,7 +81,6 @@ server {
 \tproxy_set_header X-Real-IP $remote_addr;
 \t
 \t# SSL parameters
-\tssl on;
 \tssl_certificate %CRT_PATH%;
 \tssl_certificate_key %KEY_PATH%;
 \tssl_session_timeout 30m;
