@@ -90,12 +90,10 @@ class EncryptedVault(models.Model):
         copy=True,
     )
 
-    @api.multi
     def _compute_history_count(self):
         for vault in self:
             vault.history_count = len(vault.history_ids)
 
-    @api.multi
     def write(self, vals):
         if any(key in vals for key in self.get_history_fields()):
             for record in self:
@@ -117,7 +115,6 @@ class EncryptedVault(models.Model):
             "uri": record.uri,
         }
 
-    @api.multi
     def random_password_button(self):
         self.ensure_one()
         self.password = self.random_password()

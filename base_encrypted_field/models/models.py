@@ -19,7 +19,6 @@ class IrModelFields(models.Model):
              "This cannot be changed after creation.",
     )
 
-    @api.multi
     def write(self, vals):
         def changing_storing_sys(f):
             if 'encryption_field_id' in vals:

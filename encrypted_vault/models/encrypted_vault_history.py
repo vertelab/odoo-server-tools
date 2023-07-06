@@ -46,7 +46,6 @@ class EncryptedVaultHistory(models.Model):
         ondelete="cascade",
     )
 
-    @api.multi
     def restore(self):
         self.ensure_one()
         self.vault_id.write({

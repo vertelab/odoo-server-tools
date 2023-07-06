@@ -174,7 +174,6 @@ class AuditlogRule(models.Model):
             self = self.search([("state", "=", "subscribed")])
         return self._patch_methods()
 
-    @api.multi
     def _patch_methods(self):
         """Patch ORM methods of models defined in rules to log their calls."""
         updated = False
@@ -214,7 +213,6 @@ class AuditlogRule(models.Model):
                 updated = True
         return updated
 
-    @api.multi
     def _revert_methods(self):
         """Restore original ORM methods of models defined in rules."""
         updated = False

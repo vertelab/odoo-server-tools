@@ -34,7 +34,6 @@ class AuditlogtHTTPSession(models.Model):
                 fields.Datetime.to_string(tz_create_date),
             )
 
-    @api.multi
     def name_get(self):
         return [(session.id, session.display_name) for session in self]
 
