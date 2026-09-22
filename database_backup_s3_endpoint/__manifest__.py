@@ -33,7 +33,7 @@
     """,
 
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-',
+    'website': 'https://vertel.se/apps/odoo-server-tools/database_backup_s3_endpoint',
     'images': ['static/description/banner.png'], # 560x280
     'license': 'AGPL-3',
     'depends': ["auto_database_backup"],

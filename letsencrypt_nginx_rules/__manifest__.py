@@ -7,7 +7,7 @@
     Create Nginx configs for SSL.
     """,
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-server-tools/letsencrypt_nginx',
+    'website': 'https://vertel.se/apps/odoo-server-tools/letsencrypt_nginx_rules',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
