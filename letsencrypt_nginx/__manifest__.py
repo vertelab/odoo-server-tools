@@ -22,15 +22,22 @@
 
 {
     'name': 'Server Tools: Let''s Encrypt Nginx',
-    'version': '1.1',
+    'version': '18.0.1.1.0',
     'summary': 'Create nginx configs for SSL.',
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Technical',
-    'description': """
-    Create Nginx configs for SSL.
-    """,
+    'description': '''
+Lets Encrypt Nginx
+==================
+
+    Create nginx configs for SSL.
+
+    Features:
+
+        - Extends Odoo: Builds on letsencrypt.
+    ''',
     #'sequence': '1',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-server-tools/letsencrypt_nginx',
