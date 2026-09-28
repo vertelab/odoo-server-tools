@@ -52,4 +52,3 @@ Lets Encrypt Nginx
     "installable": True,
     "external_dependencies": {'python3' : ['acme_tiny', 'IPy']},
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
